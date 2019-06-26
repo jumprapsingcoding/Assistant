@@ -251,10 +251,16 @@
 							<div
 								class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="教师姓名">
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="button">查询</button>
-									</span>
+									<form action="search" method="get">
+										<input name="name" type="text" class="form-control"
+											placeholder="教师姓名"> <span class="input-group-btn">
+											<button class="btn btn-default" type="submit">查询</button>
+										</span>
+									</form>
+									
+									<button onclick="preAdd()" data-toggle="modal" data-target="#editModal"
+										class="btn btn-default">增加</button>
+										
 								</div>
 							</div>
 						</div>
@@ -262,23 +268,52 @@
 
 					<div class="clearfix"></div>
 
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>账号</th>
-								<th>姓名</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="teacher,status : ${teacher_list}">
-								<td th:text="${status.count}"></td>
-								<td th:text="${teacher.account}"></td>
-								<td th:text="${teacher.name}"></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>教师信息</h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i
+												class="fa fa-chevron-up"></i></a></li>
+										<li class="dropdown"><a href="#" class="dropdown-toggle"
+											data-toggle="dropdown" role="button" aria-expanded="false"><i
+												class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="#">Settings 1</a></li>
+												<li><a href="#">Settings 2</a></li>
+											</ul></li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>账号</th>
+												<th>姓名</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="teacher,status : ${teacher_list}">
+												<td th:text="${status.count}"></td>
+												<td th:text="${teacher.account}"></td>
+												<td th:text="${teacher.name}"></td>
+												<td><a th:href="@{delete(id=${teacher.id})}">刪除</a>
+													<button th:attr="onclick='edit('+${teacher.id}+')'" data-toggle="modal"
+														data-target="#editModal" class="btn btn-default edit_btn">修改</button></td>
+											</tr>
+										</tbody>
+									</table>
 
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- /page content -->
@@ -294,7 +329,32 @@
 			<!-- /footer content -->
 		</div>
 	</div>
-
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form class="form" action="save" method="post">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+					</div>
+					<div class="modal-body">
+					<input id="id_input" class="from-controll" name="id" hidden />
+						<input id="name_input" class="from-controll" name="name" /> <input
+							id="account_input" class="from-controll" name="account" /> <input
+							id="password_input" class="from-controll" name="password" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="submit" class="btn btn-primary">提交更改</button>
+					</div>
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
 	<!-- jQuery -->
 	<script src="/vendors/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap -->
@@ -306,5 +366,23 @@
 
 	<!-- Custom Theme Scripts -->
 	<script src="js/custom.min.js"></script>
+	<script type="text/javascript">
+		function edit(id) {
+			$.ajax({
+				url : 'get?id=' + id
+			}).then(function(data) {
+				$("#name_input").val(data.name);
+				$("#account_input").val(data.account);
+				$("#password_input").val(data.password);
+				$("#id_input").val(data.id);
+			})
+		}
+		function preAdd() {
+			$("#name_input").val('');
+			$("#account_input").val('');
+			$("#password_input").val('');
+			$("#id_input").val('');
+		}
+	</script>
 </body>
 </html>

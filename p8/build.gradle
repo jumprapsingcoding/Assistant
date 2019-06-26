@@ -5,7 +5,7 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'webadv.s99201105'
+group = 'webadv.s16202224'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -14,13 +14,14 @@ repositories {
 }
 
 dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-		compile 'org.springframework.boot:spring-boot-devtools'
-		compile 'org.webjars:bootstrap:3.3.4'
-		//implementation 'org.springframework.boot:spring-boot-starter-jdbc'	
-	    compile 'mysql:mysql-connector-java:5.1.47'
-	    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
-	    implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile 'org.webjars:bootstrap:3.3.4'	
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'	
+	compile 'mysql:mysql-connector-java:5.1.47'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
+	
 }
